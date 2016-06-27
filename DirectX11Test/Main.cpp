@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	wc.hInstance = hInstance;
 	wc.lpfnWndProc = wndproc;
-	wc.lpszClassName = CLASSNAME;
+	wc.lpszClassName = defs::CLASSNAME.c_str();
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	
 	if (FAILED(RegisterClass(&wc))) {

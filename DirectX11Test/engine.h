@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include <d3d11.h>
 //#include <d3dx11.h>
 #include <D3DCompiler.h>
-//#include <D3DX10Math.h>
+#include <DirectXMath.h>
 #include <dinput.h>
 //#include <XAudio2.h> //Windows7à»ëO
 #include <xaudio2.h>//Windows8.1à»ç~
@@ -30,6 +32,8 @@ namespace engine
 		ID3D11RenderTargetView*             renderTargetView = nullptr;
 		ID3D11Texture2D*                    depthStencil = nullptr;
 		ID3D11DepthStencilView*             depthStencilView = nullptr;
+		std::shared_ptr<D3D11_VIEWPORT>		viewPort = nullptr;
+
 		ID3D11ShaderResourceView*           textureRV1 = nullptr;
 		ID3D11ShaderResourceView*           textureRV2 = nullptr;
 		ID3D11InputLayout*                  batchInputLayout = nullptr;

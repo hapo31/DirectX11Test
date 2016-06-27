@@ -13,6 +13,8 @@
 #pragma comment(lib, "d3dCompiler.lib")
 //#pragma comment(lib, "d3dx10.lib")
 
+using namespace std;
+
 void safe_release(IUnknown* obj);
 
 HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
@@ -23,16 +25,19 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	UINT height = rc.bottom - rc.top;
 	UINT width = rc.right - rc.left;
 	
+	//ドライバタイプの列挙
 	D3D_DRIVER_TYPE driverTypes[] = {
 		D3D_DRIVER_TYPE_HARDWARE,
 		D3D_DRIVER_TYPE_WARP,
 		D3D_DRIVER_TYPE_REFERENCE,
 	};
 
+	//フューチャーレベルの列挙　たぶんどのDirectX使うか的なやつ
 	D3D_FEATURE_LEVEL featureLevels[] = {
 		D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0
 	};
 
+	//スワップチェインの初期化
 	DXGI_SWAP_CHAIN_DESC sd = {0};
 
 	sd.BufferCount = 1;
@@ -66,6 +71,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 		safe_release(backBuffer);
 		return hr;
 	}
+
 	D3D11_TEXTURE2D_DESC desc_depth;
 	ZeroMemory(&desc_depth, sizeof(desc_depth));
 
@@ -97,6 +103,26 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	safe_release(backBuffer);
 	safe_release(depthStencil);
+
+	/*
+		デバイスの初期化たぶんここまで	
+	*/
+
+
+	/*
+		ビューポートの設定
+	*/
+	deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
+	viewPort = make_shared<D3D11_VIEWPORT>();
+	viewPort->TopLeftX = 0.0f;
+	viewPort->TopLeftY = 0.0f;
+	viewPort->Width = (float)width;
+	viewPort->Height = (float)height;
+	viewPort->MinDepth = 0.0f;
+	viewPort->MaxDepth = 1.0f;
+
+	deviceContext->RSSetViewports(1, viewPort.get());
 
 	return hr;
 }
