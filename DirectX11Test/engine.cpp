@@ -71,7 +71,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 		safe_release(backBuffer);
 		return hr;
 	}
-
+	// 
 	D3D11_TEXTURE2D_DESC desc_depth;
 	ZeroMemory(&desc_depth, sizeof(desc_depth));
 
