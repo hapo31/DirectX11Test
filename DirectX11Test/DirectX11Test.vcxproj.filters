@@ -14,6 +14,9 @@
     <Filter Include="WinAPI">
       <UniqueIdentifier>{a43d184c-2ad1-46ab-b33a-74bed2853e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{3933089e-0671-4ee0-9ea1-ccf9e3c44b12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defs.h">
@@ -40,5 +43,10 @@
     <ClCompile Include="Application.cpp">
       <Filter>WinAPI</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\damedesu.dds">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>

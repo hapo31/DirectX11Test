@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include <d3d11.h>
 //#include <d3dx11.h>
@@ -10,6 +11,12 @@
 //#include <XAudio2.h> //Windows7à»ëO
 #include <xaudio2.h>//Windows8.1à»ç~
 #include <XAudio2fx.h>
+
+#include <CommonStates.h>
+#include <SpriteBatch.h>
+#include <DirectXMath.h>
+#include <Effects.h>
+#include <VertexTypes.h>
 
 #include "Application.h"
 #include "Singleton.h"
@@ -34,8 +41,16 @@ namespace engine
 		ID3D11DepthStencilView*             depthStencilView = nullptr;
 		std::shared_ptr<D3D11_VIEWPORT>		viewPort = nullptr;
 
-		ID3D11ShaderResourceView*           textureRV1 = nullptr;
-		ID3D11ShaderResourceView*           textureRV2 = nullptr;
 		ID3D11InputLayout*                  batchInputLayout = nullptr;
+
+		std::unique_ptr<DirectX::CommonStates>	commonStates;
+		std::unique_ptr<DirectX::SpriteBatch>	sprites;
+		std::unique_ptr<DirectX::BasicEffect>	batchEffect;
+		DirectX::XMMATRIX						view;
+		DirectX::XMMATRIX						world;
+		DirectX::XMMATRIX						projection;
+
+		std::vector<ID3D11ShaderResourceView*>	textures;
+
 	};
 }

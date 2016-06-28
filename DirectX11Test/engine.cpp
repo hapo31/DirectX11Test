@@ -1,5 +1,6 @@
 #pragma once
-#include <typeinfo>
+
+#include<DDSTextureLoader.h>
 
 #include "engine.h"
 #include "Application.h"
@@ -9,11 +10,13 @@
 #pragma comment(lib, "xaudio2.lib")
 #pragma comment(lib, "dxgi.lib") 
 #pragma comment(lib, "d3d11.lib") 
+#pragma comment(lib, "DirectXTK.lib")
 //#pragma comment(lib, "d3dx11.lib") 
 #pragma comment(lib, "d3dCompiler.lib")
 //#pragma comment(lib, "d3dx10.lib")
 
 using namespace std;
+using namespace DirectX;
 
 void safe_release(IUnknown* obj);
 
@@ -24,7 +27,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	RECT rc = app.get_client_size();
 	UINT height = rc.bottom - rc.top;
 	UINT width = rc.right - rc.left;
-	
+
 	//ドライバタイプの列挙
 	D3D_DRIVER_TYPE driverTypes[] = {
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -38,7 +41,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	};
 
 	//スワップチェインの初期化
-	DXGI_SWAP_CHAIN_DESC sd = {0};
+	DXGI_SWAP_CHAIN_DESC sd = { 0 };
 
 	sd.BufferCount = 1;
 	sd.BufferDesc.Width = width;
@@ -65,7 +68,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	//レンダリングターゲットビュー
 	ID3D11Texture2D* backBuffer = nullptr;
 	swapChain->GetBuffer(NULL, IID_PPV_ARGS(&backBuffer));
-	
+
 	if (FAILED(hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView))) {
 		MessageBox(NULL, TEXT("デフォルトレンダーターゲットビューの生成に失敗しました。"), TEXT("Error"), MB_ICONWARNING);
 		safe_release(backBuffer);
@@ -105,7 +108,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	safe_release(depthStencil);
 
 	/*
-		デバイスの初期化たぶんここまで	
+		デバイスの初期化たぶんここまで
 	*/
 
 
@@ -124,11 +127,66 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	deviceContext->RSSetViewports(1, viewPort.get());
 
+	/*
+		今のコードで使っていない部分をコメントアウト
+	*/
+
+	//commonStates = make_unique<CommonStates>(d3dDevice);
+	sprites = make_unique<SpriteBatch>(deviceContext);
+	//batchEffect = make_unique<BasicEffect>(d3dDevice);
+
+	//batchEffect->SetVertexColorEnabled(true);
+
+	//{
+	//	void const* shaderByteCode;
+	//	size_t byteCodeLength;
+
+	//	batchEffect->GetVertexShaderBytecode(&shaderByteCode, &byteCodeLength);
+
+	//	hr = d3dDevice->CreateInputLayout(VertexPositionColor::InputElements,
+	//		VertexPositionColor::InputElementCount,
+	//		shaderByteCode, byteCodeLength,
+	//		&batchInputLayout);
+	//	if (FAILED(hr))
+	//		return hr;
+	//}
+
+	//たぶんカメラとかの設定
+	//XMVECTOR Eye = XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
+	//XMVECTOR At = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	//XMVECTOR Up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	//view = XMMatrixLookAtLH(Eye, At, Up);
+	//world = XMMatrixIdentity();
+	//projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (float)height, 0.01f, 100.0f);
+
+	//batchEffect->SetProjection(projection);
+
+	ID3D11ShaderResourceView* tex;
+	ID3D11Resource* res;
+
+	hr = CreateDDSTextureFromFile(d3dDevice, TEXT("Resources/damedesu.dds"), &res, &tex );
+
+	textures.push_back(tex);
+
+
 	return hr;
 }
 
 HRESULT engine::D3D11Wrapper::Render()
 {
+	//画面を消去する
+	deviceContext->ClearRenderTargetView(renderTargetView, Colors::Aquamarine);
+	deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+	static float x = 10;
+
+	x = x > 1280 ? -1280 : x + 1;
+
+	sprites->Begin( SpriteSortMode_Deferred );
+	//なんとなんと左手座標系で描画位置を決められる
+	sprites->Draw(textures[0], XMFLOAT2(x, 75), nullptr, Colors::White);
+	sprites->End();
 	return this->swapChain->Present(0, 0);;
 }
 
