@@ -20,6 +20,7 @@
 
 #include "Application.h"
 #include "Singleton.h"
+#include "Com_ptr.h"
 
 namespace engine
 {
@@ -28,17 +29,19 @@ namespace engine
 	public:
 		HRESULT InitDevice(const Application& app);
 
+		HRESULT Release();
+
 		HRESULT Render();
 	private:
 		const TCHAR* CLASS_NAME = TEXT("D3D11Wrapper");
 		D3D_DRIVER_TYPE						driverType = D3D_DRIVER_TYPE_NULL;
 		D3D_FEATURE_LEVEL                   featureLevel = D3D_FEATURE_LEVEL_11_0;
-		ID3D11Device*                       d3dDevice = nullptr;
-		ID3D11DeviceContext*                deviceContext = nullptr;
-		IDXGISwapChain*                     swapChain = nullptr;
-		ID3D11RenderTargetView*             renderTargetView = nullptr;
-		ID3D11Texture2D*                    depthStencil = nullptr;
-		ID3D11DepthStencilView*             depthStencilView = nullptr;
+		com_ptr<ID3D11Device>				d3dDevice;
+		com_ptr<ID3D11DeviceContext>        deviceContext;
+		com_ptr<IDXGISwapChain>             swapChain;
+		com_ptr<ID3D11RenderTargetView>		renderTargetView;
+		com_ptr<ID3D11Texture2D>            depthStencil;
+		com_ptr<ID3D11DepthStencilView>     depthStencilView;
 		std::shared_ptr<D3D11_VIEWPORT>		viewPort = nullptr;
 
 		ID3D11InputLayout*                  batchInputLayout = nullptr;

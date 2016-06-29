@@ -34,6 +34,9 @@
     <ClInclude Include="Singleton.h">
       <Filter>engine\util</Filter>
     </ClInclude>
+    <ClInclude Include="Com_ptr.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />

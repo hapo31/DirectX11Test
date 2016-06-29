@@ -190,6 +190,14 @@ HRESULT engine::D3D11Wrapper::Render()
 	return this->swapChain->Present(0, 0);;
 }
 
+HRESULT engine::D3D11Wrapper::Release()
+{
+	d3dDevice->Release();
+	deviceContext->Release();
+
+	return S_OK;
+}
+
 
 inline void safe_release(IUnknown* obj)
 {
