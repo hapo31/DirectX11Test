@@ -1,6 +1,4 @@
 #pragma once
-#include <memory>
-#include <d3d11.h>
 
 namespace engine
 {
@@ -34,8 +32,9 @@ namespace engine
 
 		IUnknown_t* operator=(IUnknown* source)
 		{	
-			ptr->Release();
-			ptr = source;
+			if (ptr != nullptr)
+				ptr->Release();
+			return ptr = source;
 		}
 
 
