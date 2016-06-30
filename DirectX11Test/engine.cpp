@@ -4,6 +4,7 @@
 
 #include "engine.h"
 #include "Application.h"
+#include "DXTSprite.h"
 
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dinput8.lib")
@@ -41,25 +42,25 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	};
 
 	//スワップチェインの初期化
-	DXGI_SWAP_CHAIN_DESC sd = { 0 };
+	DXGI_SWAP_CHAIN_DESC desc = { 0 };
 
-	sd.BufferCount = 1;
-	sd.BufferDesc.Width = width;
-	sd.BufferDesc.Height = height;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	sd.BufferDesc.RefreshRate.Numerator = 60;
-	sd.BufferDesc.RefreshRate.Denominator = 1;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = app.get_hwnd();
-	sd.SampleDesc.Count = 1;
-	sd.SwapEffect = DXGI_SWAP_EFFECT_SEQUENTIAL;
-	sd.Windowed = false;
-	sd.SampleDesc.Quality = 0;
-	sd.Windowed = TRUE;
-	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	desc.BufferCount = 1;
+	desc.BufferDesc.Width = width;
+	desc.BufferDesc.Height = height;
+	desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.BufferDesc.RefreshRate.Numerator = 60;
+	desc.BufferDesc.RefreshRate.Denominator = 1;
+	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	desc.OutputWindow = app.get_hwnd();
+	desc.SampleDesc.Count = 1;
+	desc.SwapEffect = DXGI_SWAP_EFFECT_SEQUENTIAL;
+	desc.Windowed = false;
+	desc.SampleDesc.Quality = 0;
+	desc.Windowed = TRUE;
+	desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	if (FAILED(hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-		featureLevels, 3, D3D11_SDK_VERSION, &sd, &swapChain, &d3dDevice, &featureLevel, &deviceContext)))
+		featureLevels, 3, D3D11_SDK_VERSION, &desc, &swapChain, &d3dDevice, &featureLevel, &deviceContext)))
 	{
 		MessageBox(app.get_hwnd(), TEXT("D3D11Deviceの作成またはSwapChainの作成に失敗しました"), CLASS_NAME, MB_OK);
 		return E_FAIL;
@@ -162,10 +163,17 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	//batchEffect->SetProjection(projection);
 
+    /*
+        リソース読み込み
+    */
+
 	ID3D11ShaderResourceView* tex;
 	ID3D11Resource* res;
 
 	hr = CreateDDSTextureFromFile(d3dDevice, TEXT("Resources/damedesu.dds"), &res, &tex );
+
+    texture = new DXTSprite(TEXT("Resources/damedesu.dds"));
+
 
 	textures.push_back(tex);
 
@@ -185,7 +193,7 @@ HRESULT engine::D3D11Wrapper::Render()
 
 	sprites->Begin( SpriteSortMode_Deferred );
 	//なんとなんと左手座標系で描画位置を決められる
-	sprites->Draw(textures[0], XMFLOAT2(x, 75), nullptr, Colors::White);
+	sprites->Draw(texture->getTextureResource(), XMFLOAT2(x, 75), nullptr, Colors::White);
 	sprites->End();
 	return this->swapChain->Present(0, 0);;
 }

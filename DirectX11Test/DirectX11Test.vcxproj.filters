@@ -37,6 +37,9 @@
     <ClInclude Include="Com_ptr.h">
       <Filter>engine\util</Filter>
     </ClInclude>
+    <ClInclude Include="DXTSprite.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -45,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>WinAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="DXTSprite.cpp">
+      <Filter>engine\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

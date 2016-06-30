@@ -21,39 +21,46 @@
 #include "Application.h"
 #include "Singleton.h"
 #include "Com_ptr.h"
+#include "DXTSprite.h"
 
 namespace engine
 {
-	class D3D11Wrapper : public Singleton<D3D11Wrapper>
-	{
-	public:
-		HRESULT InitDevice(const Application& app);
+    class D3D11Wrapper : public Singleton<D3D11Wrapper>
+    {
+    public:
+        HRESULT InitDevice(const Application& app);
 
-		HRESULT Release();
+        HRESULT Release();
 
-		HRESULT Render();
-	private:
-		const TCHAR* CLASS_NAME = TEXT("D3D11Wrapper");
-		D3D_DRIVER_TYPE						driverType = D3D_DRIVER_TYPE_NULL;
-		D3D_FEATURE_LEVEL                   featureLevel = D3D_FEATURE_LEVEL_11_0;
-		com_ptr<ID3D11Device>				d3dDevice;
-		com_ptr<ID3D11DeviceContext>        deviceContext;
-		com_ptr<IDXGISwapChain>             swapChain;
-		com_ptr<ID3D11RenderTargetView>		renderTargetView;
-		com_ptr<ID3D11Texture2D>            depthStencil;
-		com_ptr<ID3D11DepthStencilView>     depthStencilView;
-		std::shared_ptr<D3D11_VIEWPORT>		viewPort = nullptr;
+        HRESULT Render();
 
-		ID3D11InputLayout*                  batchInputLayout = nullptr;
+        auto get_DeviceContext() const { return deviceContext; }
+        auto get_Device() const { return d3dDevice; }
 
-		std::unique_ptr<DirectX::CommonStates>	commonStates;
-		std::unique_ptr<DirectX::SpriteBatch>	sprites;
-		std::unique_ptr<DirectX::BasicEffect>	batchEffect;
-		DirectX::XMMATRIX						view;
-		DirectX::XMMATRIX						world;
-		DirectX::XMMATRIX						projection;
+    private:
+        const TCHAR* CLASS_NAME = TEXT("D3D11Wrapper");
+        D3D_DRIVER_TYPE                         driverType = D3D_DRIVER_TYPE_NULL;
+        D3D_FEATURE_LEVEL                       featureLevel = D3D_FEATURE_LEVEL_11_0;
+        com_ptr<ID3D11Device>                   d3dDevice;
+        com_ptr<ID3D11DeviceContext>            deviceContext;
+        com_ptr<IDXGISwapChain>                 swapChain;
+        com_ptr<ID3D11RenderTargetView>         renderTargetView;
+        com_ptr<ID3D11Texture2D>                depthStencil;
+        com_ptr<ID3D11DepthStencilView>         depthStencilView;
+        std::shared_ptr<D3D11_VIEWPORT>         viewPort = nullptr;
 
-		std::vector<ID3D11ShaderResourceView*>	textures;
+        ID3D11InputLayout*                      batchInputLayout = nullptr;
 
-	};
+        std::unique_ptr<DirectX::CommonStates>  commonStates;
+        std::unique_ptr<DirectX::SpriteBatch>   sprites;
+        std::unique_ptr<DirectX::BasicEffect>   batchEffect;
+        DirectX::XMMATRIX                       view;
+        DirectX::XMMATRIX                       world;
+        DirectX::XMMATRIX                       projection;
+
+        std::vector<ID3D11ShaderResourceView*>  textures;
+        com_ptr<DXTSprite>                     texture;
+
+
+    };
 }
