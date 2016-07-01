@@ -59,7 +59,7 @@ namespace engine
         DirectX::XMMATRIX                       projection;
 
         std::vector<ID3D11ShaderResourceView*>  textures;
-        com_ptr<DXTSprite>                     texture;
+        DXTSprite                               texture;
 
 
     };

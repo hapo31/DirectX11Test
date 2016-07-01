@@ -6,8 +6,13 @@
 
 engine::DXTSprite::DXTSprite(const defs::tstring& filename)
 {
+    createTexture(filename);
+}
+
+HRESULT engine::DXTSprite::createTexture(const defs::tstring& filename)
+{
     ID3D11Device* device = Singleton<engine::D3D11Wrapper>::get_instance().get_Device();
-    last_error = DirectX::CreateDDSTextureFromFile(device, filename.c_str(), &res, &tex);
+    return last_error = DirectX::CreateDDSTextureFromFile(device, filename.c_str(), &res, &tex);
 }
 
 ULONG engine::DXTSprite::Release()
