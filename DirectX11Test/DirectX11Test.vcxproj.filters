@@ -17,6 +17,9 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{3933089e-0671-4ee0-9ea1-ccf9e3c44b12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\wrappers">
+      <UniqueIdentifier>{adbf5fac-fc86-4f92-a358-27c5c1152483}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Defs.h">
@@ -38,7 +41,13 @@
       <Filter>engine\util</Filter>
     </ClInclude>
     <ClInclude Include="DXTSprite.h">
-      <Filter>engine\util</Filter>
+      <Filter>engine\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="DXTResourceUtil.h">
+      <Filter>engine\wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="DXTFont.h">
+      <Filter>engine\wrappers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +59,10 @@
       <Filter>WinAPI</Filter>
     </ClCompile>
     <ClCompile Include="DXTSprite.cpp">
-      <Filter>engine\util</Filter>
+      <Filter>engine\wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="DXTFont.cpp">
+      <Filter>engine\wrappers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

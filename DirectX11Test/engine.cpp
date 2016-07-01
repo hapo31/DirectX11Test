@@ -167,16 +167,12 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
         ÉäÉ\Å[ÉXì«Ç›çûÇ›
     */
 
-	ID3D11ShaderResourceView* tex;
-	ID3D11Resource* res;
+	//ID3D11ShaderResourceView* tex;
+	//ID3D11Resource* res;
 
-	hr = CreateDDSTextureFromFile(d3dDevice, TEXT("Resources/damedesu.dds"), &res, &tex );
+	//hr = CreateDDSTextureFromFile(d3dDevice, TEXT("Resources/damedesu.dds"), &res, &tex );
 
     texture.createTexture(TEXT("Resources/damedesu.dds"));
-
-
-	textures.push_back(tex);
-
 
 	return hr;
 }
