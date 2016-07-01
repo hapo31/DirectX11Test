@@ -7,6 +7,12 @@ namespace engine
     {
     public:
         com_ptr() = default;
+        com_ptr(com_ptr<IUnknown>&& rhs) 
+        { 
+            if (ptr != nullptr)
+                ptr->Release();
+            ptr = rhs;
+        }
         com_ptr(IUnknown_t* src) : ptr(src) {}
 
         ~com_ptr()

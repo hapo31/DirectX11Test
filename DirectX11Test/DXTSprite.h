@@ -16,7 +16,17 @@ namespace engine
         HRESULT last_error;
     public:
         DXTSprite() = default;
+        DXTSprite(DXTSprite&& rhs)
+        {
+            if (tex != nullptr)
+                tex->Release();
+            if (res != nullptr)
+                res->Release();
+            tex = std::move(rhs.tex);
+            res = std::move(rhs.res);
+        }
         DXTSprite(const defs::tstring& filename);
+
 
         HRESULT createTexture(const defs::tstring& filename);
 
