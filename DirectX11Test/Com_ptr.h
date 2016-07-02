@@ -8,6 +8,7 @@ namespace engine
     {
     public:
         com_ptr() = default;
+        com_ptr(const com_ptr<IUnknown_t>& obj) = delete;
         com_ptr(com_ptr<IUnknown>&& rhs) 
         { 
             if (ptr != nullptr)

@@ -19,8 +19,6 @@
 using namespace std;
 using namespace DirectX;
 
-void safe_release(IUnknown* obj);
-
 HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 {
 	HRESULT hr = S_OK;
@@ -72,7 +70,7 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	if (FAILED(hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView))) {
 		MessageBox(NULL, TEXT("デフォルトレンダーターゲットビューの生成に失敗しました。"), TEXT("Error"), MB_ICONWARNING);
-		safe_release(backBuffer);
+		backBuffer->Release();
 		return hr;
 	}
 	// 
@@ -94,19 +92,19 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	if (FAILED(hr = d3dDevice->CreateTexture2D(&desc_depth, nullptr, &depthStencil))) {
 		MessageBox(NULL, TEXT("深度ステンシルテクスチャの生成に失敗しました。"), TEXT("Error"), MB_ICONWARNING);
-		safe_release(backBuffer);
+        backBuffer->Release();
 		return hr;
 	}
 
 	if (FAILED(hr = d3dDevice->CreateDepthStencilView(depthStencil, nullptr, &depthStencilView))) {
 		MessageBox(NULL, TEXT("深度ステンシルビューの生成に失敗しました。"), TEXT("Error"), MB_ICONWARNING);
-		safe_release(backBuffer);
-		safe_release(depthStencil);
+        backBuffer->Release();
+        depthStencil->Release();
 		return hr;
 	}
 
-	safe_release(backBuffer);
-	safe_release(depthStencil);
+	backBuffer->Release();
+	depthStencil->Release();
 
 	/*
 		デバイスの初期化たぶんここまで
@@ -133,7 +131,9 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 	*/
 
 	//commonStates = make_unique<CommonStates>(d3dDevice);
-	sprites = make_unique<SpriteBatch>(deviceContext);
+	sprites = make_shared<SpriteBatch>(deviceContext);
+
+
 	//batchEffect = make_unique<BasicEffect>(d3dDevice);
 
 	//batchEffect->SetVertexColorEnabled(true);
@@ -187,10 +187,11 @@ HRESULT engine::D3D11Wrapper::Render()
 
 	x = x > 1280 ? -1280 : x + 1;
 
-	sprites->Begin( SpriteSortMode_Deferred );
+    sprites->Begin(SpriteSortMode_Deferred);
 	//なんとなんと左手座標系で描画位置を決められる
 	sprites->Draw(texture.getTextureResource(), XMFLOAT2(x, 75), nullptr, Colors::White);
-	sprites->End();
+
+    sprites->End();
 	return this->swapChain->Present(0, 0);;
 }
 
@@ -200,13 +201,4 @@ HRESULT engine::D3D11Wrapper::Release()
 	deviceContext->Release();
 
 	return S_OK;
-}
-
-
-inline void safe_release(IUnknown* obj)
-{
-	if (obj != nullptr) {
-		obj->Release();
-		obj = nullptr;
-	}
 }

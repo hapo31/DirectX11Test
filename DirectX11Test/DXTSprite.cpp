@@ -11,7 +11,7 @@ engine::DXTSprite::DXTSprite(const defs::tstring& filename)
 
 HRESULT engine::DXTSprite::createTexture(const defs::tstring& filename)
 {
-    ID3D11Device* device = engine::D3D11Wrapper::get_instance().get_Device();
+    auto& device = engine::D3D11Wrapper::get_instance().getDevice();
     return last_error = DirectX::CreateDDSTextureFromFile(device, filename.c_str(), &res, &tex);
 }
 

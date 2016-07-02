@@ -34,8 +34,9 @@ namespace engine
 
         HRESULT Render();
 
-        auto get_DeviceContext() const { return deviceContext; }
-        auto get_Device() const { return d3dDevice; }
+        auto& getDeviceContext() const { return deviceContext; }
+        auto& getDevice() const { return d3dDevice; }
+        auto& getSpriteBatch() const { return sprites; }
 
     private:
         const TCHAR* CLASS_NAME = TEXT("D3D11Wrapper");
@@ -52,8 +53,8 @@ namespace engine
         ID3D11InputLayout*                      batchInputLayout = nullptr;
 
         std::unique_ptr<DirectX::CommonStates>  commonStates;
-        std::unique_ptr<DirectX::SpriteBatch>   sprites;
         std::unique_ptr<DirectX::BasicEffect>   batchEffect;
+        std::shared_ptr<DirectX::SpriteBatch>   sprites;
         DirectX::XMMATRIX                       view;
         DirectX::XMMATRIX                       world;
         DirectX::XMMATRIX                       projection;

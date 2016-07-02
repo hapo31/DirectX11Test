@@ -13,7 +13,7 @@ namespace engine
     {
     private:
         std::unique_ptr<DirectX::SpriteFont> ptr = nullptr;
-        std::unique_ptr<DirectX::SpriteBatch> sprite = nullptr;
+        std::shared_ptr<DirectX::SpriteBatch> sprite;
     public:
         DXTFont();
         DXTFont(const std::wstring& fontname);
