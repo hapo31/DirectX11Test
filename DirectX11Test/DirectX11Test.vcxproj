@@ -159,6 +159,7 @@
     <ClInclude Include="GetterSetter.h" />
     <ClInclude Include="DXTResourceUtil.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="SpriteBatchManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	WNDCLASS wc = { 0 };
 	
-	D3D11Wrapper& d3d11 = Singleton<D3D11Wrapper>::get_instance();
+	D3D11Wrapper& d3d11 = D3D11Wrapper::get_instance();
 
 	wc.hInstance = hInstance;
 	wc.lpfnWndProc = wndproc;

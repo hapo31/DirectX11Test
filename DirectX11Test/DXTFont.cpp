@@ -14,7 +14,7 @@ HRESULT engine::DXTFont::createFont(const std::wstring& fontname)
 {
     try
     {
-        auto device = Singleton<D3D11Wrapper>::get_instance().get_Device();
+        auto device = D3D11Wrapper::get_instance().get_Device();
         ptr = std::make_unique<DirectX::SpriteFont>(device, fontname.c_str());
     }
     catch (...){}

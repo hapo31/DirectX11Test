@@ -5,7 +5,7 @@ template<class T>
 class Singleton
 {
 public:
-	static T& get_instance()
+	static auto& get_instance()
 	{
 		static T object;
 		return object;

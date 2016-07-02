@@ -49,6 +49,9 @@
     <ClInclude Include="DXTFont.h">
       <Filter>engine\wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteBatchManager.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
