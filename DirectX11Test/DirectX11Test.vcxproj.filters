@@ -73,4 +73,9 @@
       <Filter>Resource</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="font.spritefont">
+      <Filter>engine</Filter>
+    </None>
+  </ItemGroup>
 </Project>

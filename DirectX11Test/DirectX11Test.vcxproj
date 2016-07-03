@@ -171,6 +171,9 @@
   <ItemGroup>
     <Image Include="Resources\damedesu.dds" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="font.spritefont" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

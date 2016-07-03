@@ -172,7 +172,10 @@ HRESULT engine::D3D11Wrapper::InitDevice(const Application& app)
 
 	//hr = CreateDDSTextureFromFile(d3dDevice, TEXT("Resources/damedesu.dds"), &res, &tex );
 
-    texture.createTexture(TEXT("Resources/damedesu.dds"));
+    texture = make_unique<DXTSprite>();
+    texture->createTexture(TEXT("Resources/damedesu.dds"));
+
+    font = make_unique<DXTFont>();
 
 	return hr;
 }
@@ -189,7 +192,8 @@ HRESULT engine::D3D11Wrapper::Render()
 
     sprites->Begin(SpriteSortMode_Deferred);
 	//‚È‚ñ‚Æ‚È‚ñ‚Æ¶ŽèÀ•WŒn‚Å•`‰æˆÊ’u‚ðŒˆ‚ß‚ç‚ê‚é
-	sprites->Draw(texture.getTextureResource(), XMFLOAT2(x, 75), nullptr, Colors::White);
+	sprites->Draw(texture->getTextureResource(), XMFLOAT2(x, 75), nullptr, Colors::White);
+    font->drawString(L"Test", 10, 10, Colors::Black);
 
     sprites->End();
 	return this->swapChain->Present(0, 0);;

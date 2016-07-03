@@ -22,6 +22,7 @@
 #include "Singleton.h"
 #include "Com_ptr.h"
 #include "DXTSprite.h"
+#include "DXTFont.h"
 
 namespace engine
 {
@@ -36,7 +37,7 @@ namespace engine
 
         auto& getDeviceContext() const { return deviceContext; }
         auto& getDevice() const { return d3dDevice; }
-        auto& getSpriteBatch() const { return sprites; }
+        std::weak_ptr<DirectX::SpriteBatch> getSpriteBatch() const { return sprites; }
 
     private:
         const TCHAR* CLASS_NAME = TEXT("D3D11Wrapper");
@@ -59,8 +60,8 @@ namespace engine
         DirectX::XMMATRIX                       world;
         DirectX::XMMATRIX                       projection;
 
-        DXTSprite                               texture;
-
+        std::unique_ptr<DXTSprite>              texture;
+        std::unique_ptr<DXTFont>                font;
 
     };
 }
